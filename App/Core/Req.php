@@ -3,7 +3,7 @@
 
     class Req{
         public static function get($key){
-            return (isset($_GET[$key]) && !empty($_POST[$key])) ? $_GET[$key] : null; 
+            return (isset($_GET[$key]) && !empty($_GET[$key])) ? $_GET[$key] : null; 
         }
         public static function post($key){
             return (isset($_POST[$key]) && !empty($_POST[$key])) ? $_POST[$key] : null;
@@ -12,7 +12,7 @@
             return (isset($_COOKIE[$cookie])) ? $_COOKIE[$cookie] : null;
         }
         public static function header($header){
-            $headers = getallheaders();
+            $headers = function_exists('getallheaders') ? getallheaders() : [];
             return (isset($headers[$header])) ? $headers[$header] : null;
         }
         public static function json(){
@@ -23,13 +23,12 @@
             return null;
         }
         public static function session($session){
-            if(!isset($_SESSION)){ session_start(); }
-            //session_start();
+            if(session_status() !== PHP_SESSION_ACTIVE){ @session_start(); }
             return (isset($_SESSION[$session])) ? $_SESSION[$session] : null;
         }
         public static function file($filename){
-            //if(isset($_FILE[])){
-            return 0; 
+            // placeholder for future file handling
+            return null; 
         }
     }
 
